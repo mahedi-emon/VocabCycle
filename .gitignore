@@ -164,3 +164,8 @@ Thumbs.db
 # Temp extraction tools
 read_docx.py
 executive_summary.txt
+
+# Executive Summary & Serena files
+EXECUTIVE_SUMMARY.md
+VocabCycle – Executive Summary.docx
+.serena/
