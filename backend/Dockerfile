@@ -27,11 +27,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy project files
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
 # Expose port
 EXPOSE 8000
 
-# Run with Gunicorn
-CMD ["gunicorn", "project.wsgi:application", "--config", "gunicorn.conf.py"]
+# Run migrations, collect static, and start Gunicorn on startup
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn project.wsgi:application --config gunicorn.conf.py"]
