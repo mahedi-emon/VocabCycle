@@ -24,16 +24,15 @@ from .services import CycleEngine
 
 
 class VocabularyListView(generics.ListAPIView):
-    """GET /api/v1/vocab/ – List all of the current user's vocabulary words."""
+    """
+    GET /api/v1/vocab/ – List all of the current user's vocabulary words.
+    POST /api/v1/vocab/ – Bulk create words for the current cycle.
+    """
 
     serializer_class = VocabularySerializer
 
     def get_queryset(self):
         return Vocabulary.objects.filter(user=self.request.user)
-
-
-class VocabularyBulkCreateView(APIView):
-    """POST /api/v1/vocab/ – Bulk create words for the current cycle."""
 
     def post(self, request):
         serializer = BulkVocabularyCreateSerializer(data=request.data)
@@ -62,6 +61,7 @@ class VocabularyBulkCreateView(APIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
 
 
 # ──────────────────────────────────────────────

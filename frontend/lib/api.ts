@@ -115,7 +115,7 @@ export const api = {
   },
 
   async addWords(words: any[]) {
-    const res = await fetchAPI('/api/v1/vocab/create/', {
+    const res = await fetchAPI('/api/v1/vocab/', {
       method: 'POST',
       body: JSON.stringify({ words }),
     });
