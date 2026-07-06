@@ -1,0 +1,1 @@
+"""Vocabulary URL package."""

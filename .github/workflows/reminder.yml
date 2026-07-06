@@ -1,0 +1,18 @@
+name: DailyReminder
+
+on:
+  schedule:
+    # Run at 11:00 PM Dhaka time (UTC+06:00) = 17:00 UTC
+    - cron: '0 17 * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Reminder Emails
+        run: |
+          curl -X POST \
+            -H "X-Reminder-Token: ${{ secrets.REMINDER_SECRET_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            https://api.vocabcycle.rawsyst.com/api/v1/reminders/send/

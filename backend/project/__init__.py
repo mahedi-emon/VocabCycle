@@ -1,0 +1,3 @@
+"""
+VocabCycle – Project package init.
+"""
