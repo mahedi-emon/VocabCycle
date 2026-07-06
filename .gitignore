@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+/lib/
 lib64/
 parts/
 sdist/
@@ -155,7 +155,7 @@ out/
 .env.development.local
 .env.test.local
 .env.production.local
-.env.sample
+# .env.sample
 
 # OS files
 .DS_Store
