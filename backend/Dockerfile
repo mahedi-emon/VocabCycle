@@ -1,29 +1,28 @@
 # ──────────────────────────────────────────────
-# VocabCycle Backend – Dockerfile (Optimized)
-# Python 3.12 slim, Multi-stage compilation
+# VocabCycle Backend – Dockerfile (Optimized Alpine)
+# Python 3.12 alpine, Multi-stage compilation
 # ──────────────────────────────────────────────
 
-# Stage 1: Build dependencies
-FROM python:3.12-slim AS builder
+# Stage 1: Build dependencies on Alpine
+FROM python:3.12-alpine AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
+# Install Alpine build dependencies for compiling psycopg2 and Pillow
+RUN apk add --no-cache gcc musl-dev postgresql-dev jpeg-dev zlib-dev libpng-dev libffi-dev
 
 COPY requirements.txt .
 
-# Build wheel binaries for pip dependencies
+# Build wheel binaries
 RUN pip install --no-cache-dir --upgrade pip && \
     pip wheel --no-cache-dir --wheel-dir /app/wheels -r requirements.txt
 
 
-# Stage 2: Final runner image
-FROM python:3.12-slim
+# Stage 2: Final runner image on Alpine
+FROM python:3.12-alpine
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -31,11 +30,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install runtime database client shared library (no build tools)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libpq5 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Install runtime libraries required by psycopg2 and Pillow (no build tools)
+RUN apk add --no-cache libpq jpeg zlib libpng libffi
 
 # Copy wheels from builder and install them
 COPY --from=builder /app/wheels /wheels
