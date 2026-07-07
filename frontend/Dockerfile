@@ -27,6 +27,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
+# Delete Yarn to free up space (standalone mode only needs raw Node to execute)
+RUN rm -rf /opt/yarn* /usr/local/bin/yarn /usr/local/bin/yarnpkg
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 

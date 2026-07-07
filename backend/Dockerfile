@@ -16,9 +16,12 @@ RUN apk add --no-cache gcc musl-dev postgresql-dev jpeg-dev zlib-dev libpng-dev 
 
 COPY requirements.txt .
 
-# Build wheel binaries
+# Install dependencies into a prefix folder
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip wheel --no-cache-dir --wheel-dir /app/wheels -r requirements.txt
+    pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Prune python bytecode cache files and test directories to minimize package footprint
+RUN find /install -depth \( \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \) -exec rm -rf '{}' +
 
 
 # Stage 2: Final runner image on Alpine
@@ -33,11 +36,8 @@ WORKDIR /app
 # Install runtime libraries required by psycopg2 and Pillow (no build tools)
 RUN apk add --no-cache libpq jpeg zlib libpng libffi
 
-# Copy wheels from builder and install them
-COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
-RUN pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt && \
-    rm -rf /wheels requirements.txt
+# Copy compiled python dependencies directly from builder
+COPY --from=builder /install /usr/local
 
 # Copy project files (excluded files are handled by .dockerignore)
 COPY . .
