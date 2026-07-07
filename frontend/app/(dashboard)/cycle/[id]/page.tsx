@@ -253,9 +253,9 @@ export default function CycleDetailPage() {
               {Array(5).fill(null).map((_, i) => {
                 const index = wizardStep * 5 + i;
                 return (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-xl border border-border bg-secondary/40 items-end">
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-5 rounded-2xl border border-white/5 bg-[#0f172a]/30 hover:bg-[#0f172a]/50 transition-all items-end">
                     <div className="md:col-span-1">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Word #{index + 1}
                       </label>
                       <input
@@ -263,12 +263,12 @@ export default function CycleDetailPage() {
                         required
                         value={inputs[index].word}
                         onChange={(e) => handleInputChange(index, 'word', e.target.value)}
-                        className="w-full rounded-xl border border-border bg-secondary px-3 py-2 text-white text-sm focus:border-primary focus:outline-none"
+                        className="w-full rounded-xl border border-white/10 bg-[#1e293b]/50 px-3.5 py-2.5 text-white text-sm focus:bg-[#1e293b] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                         placeholder="e.g. Ephemeral"
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Meaning
                       </label>
                       <input
@@ -276,31 +276,31 @@ export default function CycleDetailPage() {
                         required
                         value={inputs[index].meaning}
                         onChange={(e) => handleInputChange(index, 'meaning', e.target.value)}
-                        className="w-full rounded-xl border border-border bg-secondary px-3 py-2 text-white text-sm focus:border-primary focus:outline-none"
+                        className="w-full rounded-xl border border-white/10 bg-[#1e293b]/50 px-3.5 py-2.5 text-white text-sm focus:bg-[#1e293b] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                         placeholder="e.g. Lasting a short time"
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Synonyms (opt)
                       </label>
                       <input
                         type="text"
                         value={inputs[index].synonyms}
                         onChange={(e) => handleInputChange(index, 'synonyms', e.target.value)}
-                        className="w-full rounded-xl border border-border bg-secondary px-3 py-2 text-white text-sm focus:border-primary focus:outline-none"
+                        className="w-full rounded-xl border border-white/10 bg-[#1e293b]/50 px-3.5 py-2.5 text-white text-sm focus:bg-[#1e293b] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                         placeholder="e.g. transient, fleeting"
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Antonyms (opt)
                       </label>
                       <input
                         type="text"
                         value={inputs[index].antonyms}
                         onChange={(e) => handleInputChange(index, 'antonyms', e.target.value)}
-                        className="w-full rounded-xl border border-border bg-secondary px-3 py-2 text-white text-sm focus:border-primary focus:outline-none"
+                        className="w-full rounded-xl border border-white/10 bg-[#1e293b]/50 px-3.5 py-2.5 text-white text-sm focus:bg-[#1e293b] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                         placeholder="e.g. permanent"
                       />
                     </div>
@@ -394,25 +394,25 @@ export default function CycleDetailPage() {
                     </div>
 
                     {/* Word Display Block */}
-                    <div className="py-8 flex flex-col items-center justify-center border border-border/40 rounded-2xl bg-secondary/20 relative">
-                      <span className="text-sm text-gray-400 uppercase font-bold tracking-wider mb-2">Meaning to recall</span>
-                      <h2 className="text-2xl font-extrabold text-white text-center px-6">
+                    <div className="py-10 px-6 flex flex-col items-center justify-center border border-white/5 rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#1e293b]/30 shadow-inner text-center relative overflow-hidden">
+                      <span className="text-[10px] text-primary uppercase font-bold tracking-widest mb-3 bg-primary/10 px-2.5 py-1 rounded-full border border-primary/15">Meaning to recall</span>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center px-6 leading-normal tracking-tight">
                         {shuffledReviews[currentReviewIndex]?.meaning}
                       </h2>
                       {showMeaning && (
-                        <div className="mt-6 flex flex-col items-center text-center">
-                          <span className="text-xs text-primary font-bold uppercase tracking-wider mb-1">Correct Vocabulary</span>
-                          <h3 className="text-2xl font-black text-emerald-400">
+                        <div className="mt-8 pt-6 border-t border-white/5 w-full max-w-sm flex flex-col items-center text-center">
+                          <span className="text-xs text-[#94a3b8] font-bold uppercase tracking-wider mb-2">Correct Vocabulary</span>
+                          <h3 className="text-3xl font-black text-emerald-400 tracking-tight">
                             {shuffledReviews[currentReviewIndex]?.word}
                           </h3>
-                          {(shuffledReviews[currentReviewIndex] as any).synonyms && (
-                            <p className="mt-2 text-sm text-gray-400">
-                              Synonyms: <span className="text-white">{(shuffledReviews[currentReviewIndex] as any).synonyms}</span>
+                          {shuffledReviews[currentReviewIndex]?.synonyms && (
+                            <p className="mt-3 text-sm text-[#94a3b8]">
+                              Synonyms: <span className="text-[#f8fafc] font-semibold">{shuffledReviews[currentReviewIndex].synonyms}</span>
                             </p>
                           )}
-                          {(shuffledReviews[currentReviewIndex] as any).antonyms && (
-                            <p className="mt-1 text-sm text-gray-400">
-                              Antonyms: <span className="text-white">{(shuffledReviews[currentReviewIndex] as any).antonyms}</span>
+                          {shuffledReviews[currentReviewIndex]?.antonyms && (
+                            <p className="mt-1.5 text-sm text-[#94a3b8]">
+                              Antonyms: <span className="text-[#f8fafc] font-semibold">{shuffledReviews[currentReviewIndex].antonyms}</span>
                             </p>
                           )}
                         </div>
@@ -420,43 +420,43 @@ export default function CycleDetailPage() {
                     </div>
 
                     {/* Active Input Attempt */}
-                    <form onSubmit={handleCheckSpelling} className="space-y-4">
+                    <form onSubmit={handleCheckSpelling} className="space-y-5">
                       <div className="flex gap-3">
                         <input
                           type="text"
                           value={userSpellingAttempt}
                           onChange={(e) => setUserSpellingAttempt(e.target.value)}
                           placeholder="Type spelling here to test spelling..."
-                          className="flex-1 rounded-xl border border-border bg-secondary px-4 py-3 text-white placeholder-gray-500 focus:border-primary focus:outline-none"
+                          className="flex-1 rounded-xl border border-white/10 bg-[#1e293b]/50 px-4 py-3 text-white placeholder-gray-500 focus:bg-[#1e293b] focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                         />
                         <button
                           type="submit"
-                          className="rounded-xl bg-secondary hover:bg-muted border border-border px-5 py-3 font-semibold text-white transition-colors"
+                          className="rounded-xl bg-gradient-to-r from-primary to-indigo-600 border border-primary/20 hover:opacity-95 hover:scale-[1.02] px-6 py-3 font-semibold text-white transition-all shadow-md shadow-primary/25 cursor-pointer"
                         >
                           Check
                         </button>
                       </div>
 
-                      <div className="flex justify-between items-center min-h-[2rem]">
+                      <div className="flex justify-between items-center min-h-[2.5rem] gap-4">
                         <div>
                           {spellingStatus === 'correct' && (
-                            <div className="flex items-center gap-1.5 text-emerald-400 text-sm font-semibold">
+                            <div className="flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 text-emerald-400 text-xs font-semibold animate-pulse-slow">
                               <Check className="h-4 w-4" /> Correct Spelling!
                             </div>
                           )}
                           {spellingStatus === 'incorrect' && (
-                            <div className="flex items-center gap-1.5 text-red-400 text-sm font-semibold">
+                            <div className="flex items-center gap-2 rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-1.5 text-red-400 text-xs font-semibold">
                               <XCircle className="h-4 w-4" /> Spelling didn't match. Try again!
                             </div>
                           )}
                         </div>
 
-                        <div className="flex gap-3">
+                        <div className="flex items-center gap-4">
                           {!showMeaning && (
                             <button
                               type="button"
                               onClick={() => setShowMeaning(true)}
-                              className="text-sm font-medium text-primary hover:underline"
+                              className="text-xs font-bold text-primary hover:text-indigo-400 transition-colors uppercase tracking-wider"
                             >
                               Show Answer
                             </button>
@@ -464,7 +464,7 @@ export default function CycleDetailPage() {
                           <button
                             type="button"
                             onClick={handleNextReviewWord}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-accent transition-colors"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs font-bold text-white hover:bg-white/10 transition-colors cursor-pointer"
                           >
                             Next Word
                             <ArrowRight className="h-4 w-4" />

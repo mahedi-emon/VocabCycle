@@ -22,6 +22,8 @@ export interface Review {
   id: string;
   word: string;
   meaning: string;
+  synonyms: string;
+  antonyms: string;
   review_count: number;
   last_reviewed: string;
 }

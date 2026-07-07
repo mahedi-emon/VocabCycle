@@ -75,7 +75,7 @@ class CycleListView(generics.ListAPIView):
     serializer_class = CycleListSerializer
 
     def get_queryset(self):
-        return Cycle.objects.filter(user=self.request.user)
+        return Cycle.objects.filter(user=self.request.user).prefetch_related("reviews")
 
 
 class CycleCurrentView(APIView):
@@ -157,7 +157,9 @@ class CycleDetailView(generics.RetrieveAPIView):
     serializer_class = CycleDetailSerializer
 
     def get_queryset(self):
-        return Cycle.objects.filter(user=self.request.user)
+        return Cycle.objects.filter(user=self.request.user).prefetch_related(
+            "reviews__vocabulary"
+        )
 
 
 class CycleWordsView(APIView):
@@ -268,3 +270,15 @@ class SearchView(APIView):
             {"query": query, "count": results.count(), "results": serializer.data},
             status=status.HTTP_200_OK,
         )
+
+
+class VocabularyExportView(APIView):
+    """GET /api/v1/vocab/export/ – Export all of the user's vocabulary words as JSON."""
+
+    def get(self, request):
+        vocab = Vocabulary.objects.filter(user=request.user).order_by("word")
+        serializer = VocabularySerializer(vocab, many=True)
+        response = Response(serializer.data, status=status.HTTP_200_OK)
+        response["Content-Disposition"] = 'attachment; filename="vocabcycle_export.json"'
+        return response
+

@@ -114,6 +114,11 @@ export const api = {
     return res;
   },
 
+  async exportVocab() {
+    const res = await fetchAPI('/api/v1/vocab/export/');
+    return res;
+  },
+
   async addWords(words: any[]) {
     const res = await fetchAPI('/api/v1/vocab/', {
       method: 'POST',

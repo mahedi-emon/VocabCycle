@@ -62,11 +62,30 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     word = serializers.CharField(source="vocabulary.word", read_only=True)
     meaning = serializers.CharField(source="vocabulary.meaning", read_only=True)
+    synonyms = serializers.CharField(source="vocabulary.synonyms", read_only=True)
+    antonyms = serializers.CharField(source="vocabulary.antonyms", read_only=True)
 
     class Meta:
         model = Review
-        fields = ["id", "word", "meaning", "review_count", "last_reviewed"]
-        read_only_fields = ["id", "word", "meaning", "review_count", "last_reviewed"]
+        fields = [
+            "id",
+            "word",
+            "meaning",
+            "synonyms",
+            "antonyms",
+            "review_count",
+            "last_reviewed",
+        ]
+        read_only_fields = [
+            "id",
+            "word",
+            "meaning",
+            "synonyms",
+            "antonyms",
+            "review_count",
+            "last_reviewed",
+        ]
+
 
 
 class CycleListSerializer(serializers.ModelSerializer):

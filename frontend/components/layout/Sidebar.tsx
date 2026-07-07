@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-[#0b0f19] pt-16 transition-transform duration-300 md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/5 bg-[#060913]/90 backdrop-blur-xl pt-16 transition-transform duration-300 md:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -42,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 py-4">
+        <nav className="flex-1 space-y-1.5 px-3 py-6">
           {navigation.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
@@ -50,15 +50,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 key={item.name}
                 href={item.href}
                 onClick={onClose}
-                className={`group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
+                className={`group flex items-center gap-3 rounded-xl py-3 text-sm font-semibold transition-all duration-200 ${
                   isActive
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                    : 'text-gray-400 hover:bg-secondary hover:text-white'
+                    ? 'bg-gradient-to-r from-primary to-indigo-600 text-white shadow-lg shadow-primary/25 border-l-4 border-indigo-300 pl-3'
+                    : 'text-[#94a3b8] hover:bg-white/5 hover:text-white pl-4'
                 }`}
               >
                 <item.icon
-                  className={`h-5 w-5 transition-transform group-hover:scale-110 ${
-                    isActive ? 'text-white' : 'text-gray-400 group-hover:text-white'
+                  className={`h-5 w-5 transition-transform duration-200 group-hover:scale-110 ${
+                    isActive ? 'text-white' : 'text-[#94a3b8] group-hover:text-white'
                   }`}
                 />
                 {item.name}

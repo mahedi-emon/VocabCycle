@@ -88,8 +88,8 @@ export default function DashboardPage() {
       {stats && (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {/* Card 1: Words Learned */}
-          <div className="glass-panel p-5 rounded-2xl flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex items-center gap-4 hover:border-primary/30 hover:shadow-primary/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary shadow-inner">
               <BookOpen className="h-6 w-6" />
             </div>
             <div>
@@ -99,8 +99,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Card 2: Completed Cycles */}
-          <div className="glass-panel p-5 rounded-2xl flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+          <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex items-center gap-4 hover:border-emerald-500/30 hover:shadow-emerald-500/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 shadow-inner">
               <CheckCircle className="h-6 w-6" />
             </div>
             <div>
@@ -110,9 +110,9 @@ export default function DashboardPage() {
           </div>
 
           {/* Card 3: Streak */}
-          <div className="glass-panel p-5 rounded-2xl flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-400">
-              <Flame className="h-6 w-6 animate-bounce" />
+          <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex items-center gap-4 hover:border-orange-500/30 hover:shadow-orange-500/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-400 shadow-inner">
+              <Flame className="h-6 w-6 animate-pulse" />
             </div>
             <div>
               <p className="text-sm text-gray-400 font-medium">Current Streak</p>
@@ -121,8 +121,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Card 4: Daily Goal */}
-          <div className="glass-panel p-5 rounded-2xl flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400">
+          <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex items-center gap-4 hover:border-indigo-500/30 hover:shadow-indigo-500/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 shadow-inner">
               <Award className="h-6 w-6" />
             </div>
             <div>
@@ -136,24 +136,25 @@ export default function DashboardPage() {
       {/* Cycle Engine Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Status & Action */}
-        <div className="lg:col-span-2 glass-panel p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-2">Learning Cycle Engine</h3>
+        <div className="lg:col-span-2 glass-panel p-6 rounded-2xl flex flex-col justify-between border-l-4 border-l-primary/70 relative overflow-hidden">
+          <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-2xl" />
+          <div className="relative z-10">
+            <h3 className="text-xl font-extrabold text-white mb-3">Learning Cycle Engine</h3>
             
             {currentCycle ? (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="rounded-full bg-primary/20 text-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider">
+              <div className="space-y-5">
+                <div className="flex items-center gap-2.5">
+                  <span className="inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider border border-primary/20">
                     Cycle {currentCycle.cycle_number} Active
-                  </div>
+                  </span>
                   {currentCycle.is_full_review && (
-                    <div className="rounded-full bg-orange-500/20 text-orange-400 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
-                      Full Review
-                    </div>
+                    <span className="inline-flex items-center rounded-full bg-amber-500/10 text-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-wider border border-amber-500/20">
+                      Full Review Milestone
+                    </span>
                   )}
                 </div>
 
-                <p className="text-gray-300">
+                <p className="text-[#94a3b8] leading-relaxed text-sm">
                   {currentCycle.is_full_review
                     ? "This is a full-review cycle. No new words will be added. You must review all previously learned words from cycles 1-6 at least 7 times."
                     : `You are in a regular cycle. Add 20 new words and complete at least 7 review passes of previous words to finalize.`}
@@ -161,13 +162,13 @@ export default function DashboardPage() {
 
                 {stats && !currentCycle.is_full_review && (
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm text-gray-400">
+                    <div className="flex justify-between text-xs font-semibold text-gray-400">
                       <span>Words input today</span>
-                      <span>{stats.words_today} / {stats.daily_goal} ({stats.daily_goal_percentage}%)</span>
+                      <span className="text-white font-bold">{stats.words_today} / {stats.daily_goal} ({stats.daily_goal_percentage}%)</span>
                     </div>
-                    <div className="w-full bg-[#1f2937] rounded-full h-2">
+                    <div className="w-full bg-[#1e293b] rounded-full h-2">
                       <div
-                        className="bg-primary h-2 rounded-full transition-all duration-300"
+                        className="bg-gradient-to-r from-primary to-indigo-500 h-2 rounded-full transition-all duration-500 shadow-md shadow-primary/40"
                         style={{ width: `${Math.min(100, stats.daily_goal_percentage)}%` }}
                       />
                     </div>
@@ -176,18 +177,18 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="py-6">
-                <p className="text-gray-300 mb-4">
+                <p className="text-gray-300 leading-relaxed text-sm">
                   You do not have any active learning cycles currently. Start a new cycle to begin inputting words and practicing.
                 </p>
               </div>
             )}
           </div>
 
-          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+          <div className="mt-8 relative z-10">
             {currentCycle ? (
               <Link
                 href={`/cycle/${currentCycle.id}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-accent transition-all shadow-md shadow-primary/20"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-6 py-3.5 text-sm font-bold text-white hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/25"
               >
                 Go to Active Cycle
                 <ChevronRight className="h-4 w-4" />
@@ -195,7 +196,7 @@ export default function DashboardPage() {
             ) : (
               <button
                 onClick={handleStartCycle}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-accent transition-all shadow-md shadow-primary/20"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-6 py-3.5 text-sm font-bold text-white hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/25"
               >
                 <PlusCircle className="h-5 w-5" />
                 Start Next Learning Cycle
@@ -204,22 +205,23 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Spaced Repetition Spurt Card */}
-        <div className="glass-panel p-6 rounded-2xl flex flex-col justify-between bg-gradient-to-br from-[#111827] to-[#1e1b4b]">
-          <div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
+        {/* Practice Streak Calendar Info Card */}
+        <div className="glass-panel p-6 rounded-2xl flex flex-col justify-between bg-gradient-to-br from-[#0f172a] via-[#1e1b4b]/50 to-[#2e1065]/20 border border-white/5 relative overflow-hidden">
+          <div className="absolute -bottom-8 -right-8 h-24 w-24 bg-primary/10 rounded-full blur-2xl" />
+          <div className="relative z-10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-5">
               <Calendar className="h-6 w-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Practice Streak Calendar</h3>
-            <p className="text-sm text-gray-400">
+            <h3 className="text-lg font-bold text-white mb-2.5">Streak & Logic Calendar</h3>
+            <p className="text-sm text-[#94a3b8] leading-relaxed">
               Learning vocabulary requires consistency. Build a streak by completing your daily cycles. Sequence-based cycles will pause and wait if you take a break, so your path is preserved!
             </p>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-border/40">
-            <div className="flex items-center justify-between text-sm text-gray-400">
+          <div className="mt-8 pt-4 border-t border-white/5 relative z-10">
+            <div className="flex items-center justify-between text-xs text-gray-400">
               <span>Goal</span>
-              <span className="text-white font-semibold">20 words/day, 7 reviews/cycle</span>
+              <span className="text-[#f8fafc] font-bold">20 words/day, 7 reviews/cycle</span>
             </div>
           </div>
         </div>

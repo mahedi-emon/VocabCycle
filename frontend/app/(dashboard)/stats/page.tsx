@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Stats, Vocabulary } from '@/lib/types';
-import { BarChart3, Search, BookOpen, Flame, Award, HelpCircle } from 'lucide-react';
+import { BarChart3, Search, BookOpen, Flame, Award, HelpCircle, Download } from 'lucide-react';
 
 export default function StatsPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Vocabulary[]>([]);
   const [searching, setSearching] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,33 @@ export default function StatsPage() {
     };
     fetchStats();
   }, []);
+
+  const handleExport = async () => {
+    setExporting(true);
+    setError(null);
+    try {
+      const res = await api.exportVocab();
+      if (res.ok) {
+        const data = await res.json();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'vocabcycle_export.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } else {
+        setError('Failed to export vocabulary.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred while exporting.');
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,12 +90,24 @@ export default function StatsPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <BarChart3 className="h-8 w-8 text-primary" />
-          Analytics & Search
-        </h1>
-        <p className="mt-1 text-gray-400">Search your dictionary database and check learning analytics.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <BarChart3 className="h-8 w-8 text-primary" />
+            Analytics & Search
+          </h1>
+          <p className="mt-1 text-gray-400">Search your dictionary database and check learning analytics.</p>
+        </div>
+        <div>
+          <button
+            onClick={handleExport}
+            disabled={exporting}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all shadow-md shadow-primary/20 disabled:opacity-50"
+          >
+            <Download className="h-4 w-4" />
+            {exporting ? 'Exporting...' : 'Export Dictionary'}
+          </button>
+        </div>
       </div>
 
       {error && (
