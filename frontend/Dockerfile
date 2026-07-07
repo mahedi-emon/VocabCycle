@@ -1,9 +1,9 @@
 # ──────────────────────────────────────────────
 # VocabCycle Frontend – Dockerfile
-# Node 18, Next.js
+# Node 20, Next.js
 # ──────────────────────────────────────────────
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
