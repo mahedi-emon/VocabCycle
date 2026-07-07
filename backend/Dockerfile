@@ -20,8 +20,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Prune python bytecode cache files and test directories to minimize package footprint
-RUN find /install -depth \( \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \) -exec rm -rf '{}' +
+# Prune python bytecode cache files to minimize package footprint safely
+RUN find /install -depth \( \( -type d -a -name '__pycache__' \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \) -exec rm -rf '{}' +
 
 
 # Stage 2: Final runner image on Alpine
