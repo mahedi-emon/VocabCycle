@@ -19,7 +19,7 @@ COPY requirements.txt .
 
 # Build wheel binaries for pip dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+    pip wheel --no-cache-dir --wheel-dir /app/wheels -r requirements.txt
 
 
 # Stage 2: Final runner image
