@@ -96,6 +96,11 @@ export default function LoginPage() {
                   placeholder="••••••••"
                 />
               </div>
+              <div className="flex justify-end mt-1.5">
+                <Link href="/forgot-password" className="text-xs text-primary hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
             </div>
           </div>
 

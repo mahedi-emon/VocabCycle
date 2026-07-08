@@ -4,11 +4,16 @@ Accounts app – Views for authentication, profile, and settings.
 
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
+from django.core.mail import send_mail
+from django.utils import timezone
+from datetime import timedelta
+import random
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .models import PasswordResetCode
 from .serializers import (
     ChangePasswordSerializer,
     GoogleAuthSerializer,
@@ -16,6 +21,8 @@ from .serializers import (
     RegisterSerializer,
     UserProfileSerializer,
     UserSettingsSerializer,
+    PasswordResetRequestSerializer,
+    PasswordResetConfirmSerializer,
 )
 
 User = get_user_model()
@@ -194,3 +201,95 @@ class ChangePasswordView(APIView):
             {"message": "Password changed successfully."},
             status=status.HTTP_200_OK,
         )
+
+
+class PasswordResetRequestView(APIView):
+    """
+    POST /api/v1/auth/password-reset/request/
+    Sends a 6-digit code to the user's email if it exists.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"].lower().strip()
+
+        # Check if user exists
+        user_exists = User.objects.filter(email=email).exists()
+
+        if user_exists:
+            # Generate 6-digit code
+            code = f"{random.randint(100000, 999999)}"
+            
+            # Save code
+            PasswordResetCode.objects.create(email=email, code=code)
+
+            # Send email
+            try:
+                send_mail(
+                    subject="VocabCycle Password Reset Verification Code",
+                    message=f"Hello,\n\nYou requested a password reset for your VocabCycle account.\n\nYour verification code is: {code}\n\nThis code will expire in 15 minutes.\n\nIf you did not request this, please ignore this email.",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                # Log error in production or development
+                print(f"Error sending password reset email: {e}")
+
+        # Always return success response to prevent email enumeration
+        return Response(
+            {"message": "If this email is registered, a verification code has been sent."},
+            status=status.HTTP_200_OK,
+        )
+
+
+class PasswordResetConfirmView(APIView):
+    """
+    POST /api/v1/auth/password-reset/confirm/
+    Verifies code and updates user's password.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"].lower().strip()
+        code = serializer.validated_data["code"].strip()
+        new_password = serializer.validated_data["new_password"]
+
+        # Check if there is a matching unexpired code (15 minutes expiry)
+        expiry_time = timezone.now() - timedelta(minutes=15)
+        reset_code = PasswordResetCode.objects.filter(
+            email=email, code=code, created_at__gte=expiry_time
+        ).first()
+
+        if not reset_code:
+            return Response(
+                {"error": "Invalid or expired verification code."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Retrieve user
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {"error": "User matching this email was not found."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Set new password
+        user.set_password(new_password)
+        user.save()
+
+        # Delete all reset codes for this email
+        PasswordResetCode.objects.filter(email=email).delete()
+
+        return Response(
+            {"message": "Password reset successful. You can now login with your new password."},
+            status=status.HTTP_200_OK,
+        )
+

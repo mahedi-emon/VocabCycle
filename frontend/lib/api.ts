@@ -108,6 +108,22 @@ export const api = {
     return res;
   },
 
+  async requestPasswordReset(email: string) {
+    const res = await fetchAPI('/api/v1/auth/password-reset/request/', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+    return res;
+  },
+
+  async confirmPasswordReset(data: any) {
+    const res = await fetchAPI('/api/v1/auth/password-reset/confirm/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    return res;
+  },
+
   // Vocabulary & Cycles
   async getVocab() {
     const res = await fetchAPI('/api/v1/vocab/');

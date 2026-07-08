@@ -32,3 +32,23 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.name} ({self.email})"
+
+
+class PasswordResetCode(models.Model):
+    """
+    Model to store 6-digit password reset verification codes.
+    Codes expire after 15 minutes.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(db_index=True)
+    code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "password_reset_codes"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.email} - {self.code}"
+
