@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { api } from '@/lib/api';
-import { BookOpen, UserPlus, Mail, Lock, User, ShieldAlert } from 'lucide-react';
+import { BookOpen, UserPlus, Mail, Lock, User, ShieldAlert, ArrowLeft } from 'lucide-react';
 
 export default function SignupPage() {
   const { login } = useAuth();
@@ -64,7 +64,14 @@ export default function SignupPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0b0f19] px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 glass-panel p-8 rounded-2xl shadow-xl">
+      <div className="w-full max-w-md space-y-6 glass-panel p-8 rounded-2xl shadow-xl">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to Home
+        </Link>
         <div className="flex flex-col items-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
             <BookOpen className="h-8 w-8" />
