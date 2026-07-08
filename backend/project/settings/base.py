@@ -152,14 +152,6 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@vocabcycle.rawsyst.com")
 
-# ──────────────────────────────────────────────
-# Cloudinary (Media)
-# ──────────────────────────────────────────────
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME", ""),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY", ""),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET", ""),
-}
 
 # ──────────────────────────────────────────────
 # Google OAuth

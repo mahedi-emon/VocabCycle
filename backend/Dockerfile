@@ -11,8 +11,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install Alpine build dependencies for compiling psycopg2 and Pillow
-RUN apk add --no-cache gcc musl-dev postgresql-dev jpeg-dev zlib-dev libpng-dev libffi-dev
+# Install Alpine build dependencies for compiling psycopg2
+RUN apk add --no-cache gcc musl-dev postgresql-dev libffi-dev
 
 COPY requirements.txt .
 
@@ -33,8 +33,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install runtime libraries required by psycopg2 and Pillow (no build tools)
-RUN apk add --no-cache libpq jpeg zlib libpng libffi
+# Install runtime libraries required by psycopg2 (no build tools)
+RUN apk add --no-cache libpq libffi
 
 # Copy compiled python dependencies directly from builder
 COPY --from=builder /install /usr/local
