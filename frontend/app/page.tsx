@@ -142,9 +142,9 @@ export default function LandingPage() {
 
             {/* Column 2: Developer & Profiles */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Creator & Developer</h4>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Owner & Developer</h4>
               <p className="text-sm text-gray-400">
-                Created & Designed by{' '}
+                Created, Designed & Owned by{' '}
                 <a 
                   href="https://www.mahedihasanemon.site/" 
                   target="_blank" 
@@ -190,7 +190,7 @@ export default function LandingPage() {
             <div className="flex flex-col gap-3">
               <h4 className="text-sm font-bold text-white uppercase tracking-wider">Get in Touch</h4>
               <p className="text-sm text-gray-400">
-                A project under{' '}
+                A project of his company{' '}
                 <a 
                   href="https://www.rawsyst.com/" 
                   target="_blank" 
