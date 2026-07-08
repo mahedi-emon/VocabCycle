@@ -3,7 +3,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { BookOpen, GraduationCap, RefreshCw, Calendar, ArrowRight, Zap, Trophy, ShieldCheck } from 'lucide-react';
+import { 
+  BookOpen, 
+  GraduationCap, 
+  RefreshCw, 
+  Calendar, 
+  ArrowRight, 
+  Zap, 
+  Trophy, 
+  ShieldCheck,
+  Mail,
+  Linkedin,
+  Github,
+  Globe
+} from 'lucide-react';
 
 export default function LandingPage() {
   const { user } = useAuth();
@@ -104,14 +117,135 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-[#0b0f19]/40 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center">
-          <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} VocabCycle. Learn, Review, and Remember.
-          </p>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <ShieldCheck className="h-4 w-4 text-emerald-500" />
-            Secure & Production-Ready SaaS Application
+      <footer className="border-t border-border bg-[#0b0f19]/80 backdrop-blur-md py-12 relative overflow-hidden mt-20">
+        {/* Glow Element */}
+        <div className="absolute top-0 left-1/4 -translate-y-1/2 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-border/60 pb-10">
+            {/* Column 1: App Info */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-6 w-6 text-primary" />
+                <span className="text-xl font-bold tracking-tight text-white">
+                  Vocab<span className="text-primary">Cycle</span>
+                </span>
+              </div>
+              <p className="text-sm text-gray-400 max-w-sm mt-2">
+                VocabCycle is a structured daily learning engine that makes retention effortless. Form the habit of review, hit your milestones, and build your vocabulary.
+              </p>
+              <div className="mt-3 text-xs text-gray-500 flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
+                Secure & Production-Ready SaaS Application
+              </div>
+            </div>
+
+            {/* Column 2: Developer & Profiles */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Creator & Developer</h4>
+              <p className="text-sm text-gray-400">
+                Created & Designed by{' '}
+                <a 
+                  href="https://www.mahedihasanemon.site/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-primary hover:text-accent font-semibold transition-all hover:underline"
+                >
+                  Mahedi Hasan Emon
+                </a>
+              </p>
+              
+              <div className="flex gap-4 mt-3">
+                <a 
+                  href="https://github.com/mahedi-emon" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center h-10 w-10 rounded-xl bg-secondary hover:bg-primary/20 text-gray-400 hover:text-white border border-border hover:border-primary/30 transition-all"
+                  title="GitHub Profile"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/mahediemon/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center h-10 w-10 rounded-xl bg-secondary hover:bg-primary/20 text-gray-400 hover:text-white border border-border hover:border-primary/30 transition-all"
+                  title="LinkedIn Profile"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+                <a 
+                  href="https://www.mahedihasanemon.site/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center h-10 w-10 rounded-xl bg-secondary hover:bg-primary/20 text-gray-400 hover:text-white border border-border hover:border-primary/30 transition-all"
+                  title="Portfolio Website"
+                >
+                  <Globe className="h-5 w-5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Column 3: Contact & Company */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Get in Touch</h4>
+              <p className="text-sm text-gray-400">
+                A project under{' '}
+                <a 
+                  href="https://www.rawsyst.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-primary hover:text-accent font-semibold transition-all hover:underline"
+                >
+                  RawSyst IT
+                </a>
+              </p>
+
+              <div className="flex flex-col gap-2.5 mt-2">
+                <a 
+                  href="mailto:mahedi.emon62@gmail.com" 
+                  className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors w-fit"
+                >
+                  <Mail className="h-4 w-4 text-primary shrink-0" />
+                  <span>mahedi.emon62@gmail.com</span>
+                </a>
+                <a 
+                  href="mailto:rawsystit@gmail.com" 
+                  className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors w-fit"
+                >
+                  <Mail className="h-4 w-4 text-primary shrink-0" />
+                  <span>rawsystit@gmail.com</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+            <p className="text-sm text-gray-500">
+              &copy; {new Date().getFullYear()}{' '}
+              <a 
+                href="https://www.mahedihasanemon.site/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:underline text-gray-400 hover:text-white transition-colors"
+              >
+                Mahedi Hasan Emon
+              </a>
+              {' '}•{' '}
+              <a 
+                href="https://www.rawsyst.com/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:underline text-gray-400 hover:text-white transition-colors"
+              >
+                RawSyst IT
+              </a>
+              . All Rights Reserved.
+            </p>
+            <div className="flex gap-6 text-sm text-gray-500">
+              <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
+              <Link href="/signup" className="hover:text-white transition-colors">Sign Up</Link>
+            </div>
           </div>
         </div>
       </footer>
