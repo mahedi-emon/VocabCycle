@@ -1,4 +1,4 @@
-name: DailyReminder
+name: HourlyReminder
 
 on:
   schedule:
@@ -10,9 +10,23 @@ jobs:
   send-reminders:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Reminder Emails
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
         run: |
-          curl -X POST \
-            -H "X-Reminder-Token: ${{ secrets.REMINDER_SECRET_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            https://api.vocabcycle.rawsyst.com/api/v1/reminders/send/
+          python -m pip install --upgrade pip
+          pip install psycopg2-binary
+
+      - name: Run Standalone Reminder Script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FRONTEND_URL: "https://vocabcycle.rawsyst.com"
+          DEFAULT_FROM_EMAIL: "noreply@vocabcycle.rawsyst.com"
+        run: python scripts/send_reminders.py
