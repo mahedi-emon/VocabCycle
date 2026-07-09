@@ -61,6 +61,11 @@ export default function LoginPage() {
       const initializeGoogle = () => {
         // @ts-ignore
         if (window.google) {
+          const btnContainer = document.getElementById('google-signin-btn');
+          const width = btnContainer && btnContainer.clientWidth > 0 
+            ? Math.min(btnContainer.clientWidth, 384) 
+            : 320;
+
           // @ts-ignore
           window.google.accounts.id.initialize({
             client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '743932708506-ji2voef0lj1o1hlrrad91h5695c8umof.apps.googleusercontent.com',
@@ -68,8 +73,8 @@ export default function LoginPage() {
           });
           // @ts-ignore
           window.google.accounts.id.renderButton(
-            document.getElementById('google-signin-btn'),
-            { theme: 'outline', size: 'large', width: 384, text: 'continue_with', shape: 'rectangular' }
+            btnContainer,
+            { theme: 'outline', size: 'large', width: width, text: 'continue_with', shape: 'rectangular' }
           );
         }
       };
