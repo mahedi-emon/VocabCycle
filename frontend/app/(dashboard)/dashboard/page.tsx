@@ -7,9 +7,27 @@ import { Stats, Cycle } from '@/lib/types';
 import { Award, BookOpen, Calendar, Flame, RefreshCw, PlusCircle, CheckCircle, ChevronRight } from 'lucide-react';
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [currentCycle, setCurrentCycle] = useState<Cycle | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<Stats | null>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('cached_stats');
+      return saved ? JSON.parse(saved) : null;
+    }
+    return null;
+  });
+  const [currentCycle, setCurrentCycle] = useState<Cycle | null>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('cached_current_cycle');
+      return saved ? JSON.parse(saved) : null;
+    }
+    return null;
+  });
+  const [loading, setLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('cached_stats');
+      return !saved;
+    }
+    return true;
+  });
   const [error, setError] = useState<string | null>(null);
 
   const fetchDashboardData = async () => {
@@ -22,14 +40,17 @@ export default function DashboardPage() {
       if (statsRes.ok) {
         const statsData = await statsRes.json();
         setStats(statsData);
+        localStorage.setItem('cached_stats', JSON.stringify(statsData));
       }
       
       if (cycleRes.ok) {
         const cycleData = await cycleRes.json();
         if (cycleData.id) {
           setCurrentCycle(cycleData);
+          localStorage.setItem('cached_current_cycle', JSON.stringify(cycleData));
         } else {
           setCurrentCycle(null);
+          localStorage.removeItem('cached_current_cycle');
         }
       }
     } catch (err) {

@@ -26,6 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const userData = await res.json();
         setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
       } else {
         logout();
       }
@@ -39,7 +40,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
+    const savedUser = localStorage.getItem('user');
+    
     if (token) {
+      if (savedUser) {
+        try {
+          setUser(JSON.parse(savedUser));
+          // Set loading to false optimistically since we have a cached user profile
+          setLoading(false);
+        } catch (e) {
+          console.error('Failed to parse cached user', e);
+        }
+      }
+      // Refresh the profile data in the background to ensure session validity
       fetchProfile();
     } else {
       setLoading(false);
@@ -49,18 +62,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = (tokens: { access: string; refresh: string }, userData: User) => {
     localStorage.setItem('access_token', tokens.access);
     localStorage.setItem('refresh_token', tokens.refresh);
+    localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
+    setLoading(false);
     router.push('/dashboard');
   };
 
   const logout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
     setUser(null);
+    setLoading(false);
     router.push('/login');
   };
 
   const updateUser = (userData: User) => {
+    localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
   };
 
