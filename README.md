@@ -1,7 +1,6 @@
 # 📚 VocabCycle – Enterprise Spaced-Repetition Vocabulary Engine
 
 [![Vercel Deployment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel&logoColor=white&style=flat-square)](https://vocabcycle.rawsyst.com)
-[![Northflank Deployment](https://img.shields.io/badge/Backend-Northflank-FF4F8B?logo=northflank&logoColor=white&style=flat-square)](https://api.vocabcycle.rawsyst.com)
 [![Neon DB](https://img.shields.io/badge/Database-Neon--Postgres-00E599?logo=postgresql&logoColor=white&style=flat-square)](https://neon.tech)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs&logoColor=white&style=flat-square)](https://nextjs.org)
 [![Django DRF](https://img.shields.io/badge/Django-5.0_/_DRF-092E20?logo=django&logoColor=white&style=flat-square)](https://www.django-rest-framework.org)
@@ -9,8 +8,7 @@
 
 VocabCycle is a production-ready, SaaS-style vocabulary acquisition and retention platform specifically optimized for **IELTS, GRE, and SAT preparation**. Leveraging a structured **sequence-based learning cycle engine** and **completion-based spaced repetition**, VocabCycle makes vocabulary acquisition effortless and highly retention-efficient.
 
-Live App: **[vocabcycle.rawsyst.com](https://vocabcycle.rawsyst.com)**  
-API Endpoint: **[api.vocabcycle.rawsyst.com](https://api.vocabcycle.rawsyst.com)**
+Live App: **[vocabcycle.rawsyst.com](https://vocabcycle.rawsyst.com)**
 
 ---
 
