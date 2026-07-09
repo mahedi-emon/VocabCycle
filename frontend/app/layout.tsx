@@ -210,11 +210,10 @@ export const metadata: Metadata = {
     },
   },
 
-  // ── Verification (user needs to fill these) ──────────────
-  // verification: {
-  //   google: 'YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE',
-  //   yandex: 'YOUR_YANDEX_VERIFICATION_CODE',
-  // },
+  // ── Verification ─────────────────────────────────────────
+  verification: {
+    google: 'N480l5UrICbsN-eWFXF4R2qb0YLf3iiZec9dx6ITwbY',
+  },
 
   // ── Other Meta Tags ──────────────────────────────────────
   other: {
