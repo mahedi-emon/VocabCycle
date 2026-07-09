@@ -57,7 +57,7 @@ def main():
           AND NOT EXISTS (
               SELECT 1 FROM cycles 
               WHERE cycles.user_id = users.id 
-                AND cycles.completed_at::date = %s
+                AND (cycles.completed_at AT TIME ZONE 'Asia/Dhaka')::date = %s
           );
     """
 
