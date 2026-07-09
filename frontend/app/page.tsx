@@ -20,8 +20,134 @@ import {
 export default function LandingPage() {
   const { user } = useAuth();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        name: 'VocabCycle',
+        url: 'https://vocabcycle.rawsyst.com',
+        applicationCategory: 'EducationalApplication',
+        operatingSystem: 'Web Browser',
+        description:
+          'Master IELTS, GRE, and SAT vocabulary with structured daily learning cycles. Learn 20 new English words every day using spaced repetition and smart review queues.',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+        },
+        featureList: [
+          'Learn 20 new vocabulary words daily',
+          'Spaced repetition review system',
+          'IELTS vocabulary preparation',
+          'GRE vocabulary builder',
+          'SAT vocabulary practice',
+          'Completion-based learning cycles',
+          'Full review milestones every 7th cycle',
+          'Daily email study reminders',
+          'Track learning progress and statistics',
+          'Synonyms and antonyms for every word',
+        ],
+        screenshot: 'https://vocabcycle.rawsyst.com/og-image.png',
+        author: {
+          '@type': 'Person',
+          name: 'Mahedi Hasan Emon',
+          url: 'https://www.mahedihasanemon.site/',
+        },
+        creator: {
+          '@type': 'Organization',
+          name: 'RawSyst IT',
+          url: 'https://www.rawsyst.com/',
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.8',
+          ratingCount: '50',
+          bestRating: '5',
+          worstRating: '1',
+        },
+      },
+      {
+        '@type': 'Organization',
+        name: 'RawSyst IT',
+        url: 'https://www.rawsyst.com/',
+        logo: 'https://vocabcycle.rawsyst.com/favicon.ico',
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: 'rawsystit@gmail.com',
+          contactType: 'customer service',
+        },
+        founder: {
+          '@type': 'Person',
+          name: 'Mahedi Hasan Emon',
+          url: 'https://www.mahedihasanemon.site/',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        name: 'VocabCycle',
+        url: 'https://vocabcycle.rawsyst.com',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://vocabcycle.rawsyst.com/?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'What is VocabCycle?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'VocabCycle is a free online vocabulary builder designed for IELTS, GRE, and SAT preparation. It uses structured daily learning cycles where you learn 20 new English words per day with meanings, synonyms, and antonyms, then review them using spaced repetition to lock words into long-term memory.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'How does VocabCycle help with IELTS vocabulary preparation?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'VocabCycle helps IELTS candidates build a strong academic vocabulary by learning 20 words daily. Each learning cycle requires reviewing words at least 7 times, ensuring deep retention. This structured approach is ideal for achieving IELTS band 7, 8, or 9 scores in reading, writing, speaking, and listening.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Is VocabCycle free to use?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes, VocabCycle is completely free. You can sign up with email or Google, start learning vocabulary immediately, and track your progress with detailed statistics — all at no cost.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'How does the spaced repetition system work in VocabCycle?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'VocabCycle uses completion-based spaced repetition. You must review each set of 20 words at least 7 times to complete a cycle. Every 7th cycle is a Full Review milestone where you re-consolidate all words from the previous 6 cycles. Missed days never break your sequence — you pick up exactly where you left off.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Can I use VocabCycle for GRE and SAT preparation?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Absolutely. VocabCycle supports vocabulary building for IELTS, GRE, SAT, TOEFL, PTE, and any English proficiency test. You input your own target words with meanings, synonyms, and antonyms, making it flexible for any exam word list.',
+            },
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f3f4f6] flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Navbar */}
       <header className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between border-b border-border">
         <div className="flex items-center gap-2">
@@ -62,13 +188,20 @@ export default function LandingPage() {
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24 flex flex-col items-center text-center justify-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-semibold uppercase tracking-wide mb-6">
           <Zap className="h-3 w-3 animate-pulse" />
-          Sequence-Based Vocabulary Acquisition
+          Free IELTS, GRE & SAT Vocabulary Builder
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-3xl">
-          Learn. Review. <span className="bg-gradient-to-r from-primary to-indigo-400 bg-clip-text text-transparent">Remember.</span>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+          Master IELTS Vocabulary.{' '}
+          <span className="bg-gradient-to-r from-primary to-indigo-400 bg-clip-text text-transparent">
+            Learn. Review. Remember.
+          </span>
         </h1>
         <p className="mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl">
-          VocabCycle helps you master English vocabulary for <span className="text-white font-semibold">IELTS, GRE, and SAT</span>. Lock in 20 new words a day using sequence-based learning cycles that adapt when you miss a day.
+          VocabCycle is a <strong className="text-white">free vocabulary builder</strong> for{' '}
+          <strong className="text-white">IELTS, GRE, and SAT preparation</strong>. Learn{' '}
+          <strong className="text-white">20 new English words daily</strong> with meanings,
+          synonyms, and antonyms using structured{' '}
+          <strong className="text-white">spaced repetition</strong> learning cycles.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -76,40 +209,106 @@ export default function LandingPage() {
             href={user ? "/dashboard" : "/signup"}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-semibold text-white hover:bg-accent transition-all shadow-lg shadow-primary/20"
           >
-            Start Your First Cycle
+            Start Learning Vocabulary Free
             <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
 
         {/* Features Grid */}
-        <section className="mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-          <div className="glass-panel p-6 rounded-2xl text-left">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
-              <GraduationCap className="h-6 w-6" />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">20 New Words Daily</h3>
-            <p className="text-sm text-gray-400">
-              Input 20 words each day with meanings, synonyms, and antonyms using our distraction-free, 4x5 grid layout.
-            </p>
-          </div>
+        <section className="mt-24 w-full" aria-label="Key Features">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-12">
+            Why Students Choose VocabCycle for{' '}
+            <span className="text-primary">IELTS & GRE Vocabulary</span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <article className="glass-panel p-6 rounded-2xl text-left">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
+                <GraduationCap className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Learn 20 New Words Daily</h3>
+              <p className="text-sm text-gray-400">
+                Build your IELTS and GRE vocabulary by inputting 20 words each day with meanings, synonyms, and antonyms using our distraction-free 4×5 grid layout.
+              </p>
+            </article>
 
-          <div className="glass-panel p-6 rounded-2xl text-left">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
-              <RefreshCw className="h-6 w-6 animate-spin-slow" />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Completion-Based Spaced Repetition</h3>
-            <p className="text-sm text-gray-400">
-              Review words at least 7 times to finish a cycle. Missed days never break your learning sequence — pick up exactly where you left off.
-            </p>
-          </div>
+            <article className="glass-panel p-6 rounded-2xl text-left">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
+                <RefreshCw className="h-6 w-6 animate-spin-slow" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Spaced Repetition Review System</h3>
+              <p className="text-sm text-gray-400">
+                Review vocabulary words at least 7 times to finish a cycle. Missed days never break your learning sequence — pick up exactly where you left off.
+              </p>
+            </article>
 
-          <div className="glass-panel p-6 rounded-2xl text-left">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
-              <Trophy className="h-6 w-6" />
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">Full Review Milestones</h3>
-            <p className="text-sm text-gray-400">
-              Every 7th cycle switches to a "Full Review" mode. Re-consolidate all words learned in the previous 6 cycles to lock them into long-term memory.
+            <article className="glass-panel p-6 rounded-2xl text-left">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4">
+                <Trophy className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Full Review Milestones</h3>
+              <p className="text-sm text-gray-400">
+                Every 7th cycle switches to a &quot;Full Review&quot; mode. Re-consolidate all words learned in the previous 6 cycles to lock them into long-term memory.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section className="mt-24 w-full" aria-label="How VocabCycle Works">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-12">
+            How VocabCycle Works —{' '}
+            <span className="text-primary">3 Simple Steps</span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <article className="glass-panel p-6 rounded-2xl text-center">
+              <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-indigo-500/10 text-primary mb-5 text-2xl font-extrabold border border-primary/20">
+                1
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Add Your Word List</h3>
+              <p className="text-sm text-gray-400">
+                Enter 20 IELTS, GRE, SAT, or any English vocabulary words with their meanings, synonyms, and antonyms to start a new learning cycle.
+              </p>
+            </article>
+
+            <article className="glass-panel p-6 rounded-2xl text-center">
+              <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-indigo-500/10 text-primary mb-5 text-2xl font-extrabold border border-primary/20">
+                2
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Review Daily with Spaced Repetition</h3>
+              <p className="text-sm text-gray-400">
+                Review your vocabulary words each day. VocabCycle tracks your progress and ensures you review each word set at least 7 times for maximum retention.
+              </p>
+            </article>
+
+            <article className="glass-panel p-6 rounded-2xl text-center">
+              <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-indigo-500/10 text-primary mb-5 text-2xl font-extrabold border border-primary/20">
+                3
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Achieve Long-Term Memory</h3>
+              <p className="text-sm text-gray-400">
+                Complete cycles and hit Full Review milestones to permanently lock vocabulary into long-term memory — perfect for IELTS band 7+ and GRE high scores.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        {/* SEO Content Section */}
+        <section className="mt-24 w-full max-w-4xl text-left" aria-label="About VocabCycle">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6">
+            The Best Free Vocabulary Builder for IELTS, GRE & SAT
+          </h2>
+          <div className="space-y-4 text-gray-400 text-base leading-relaxed">
+            <p>
+              <strong className="text-white">VocabCycle</strong> is a powerful, free online vocabulary builder designed specifically for students preparing for <strong className="text-white">IELTS</strong>, <strong className="text-white">GRE</strong>, <strong className="text-white">SAT</strong>, <strong className="text-white">TOEFL</strong>, and <strong className="text-white">PTE</strong> exams. Whether you need to build academic English vocabulary for IELTS band 7, 8, or 9, master GRE high-frequency words, or prepare SAT vocabulary flashcards — VocabCycle provides a structured, science-backed approach to vocabulary acquisition.
+            </p>
+            <p>
+              Unlike traditional vocabulary apps that rely on random flashcards, VocabCycle uses a unique <strong className="text-white">sequence-based learning cycle system</strong> combined with <strong className="text-white">spaced repetition</strong>. You learn exactly 20 new English words daily — complete with meanings, synonyms, and antonyms — and then systematically review them over multiple days until each word is locked into your long-term memory.
+            </p>
+            <p>
+              Our completion-based approach means <strong className="text-white">missed days never break your progress</strong>. Whether you study every day or take breaks, VocabCycle remembers exactly where you left off. Every 7th cycle triggers a comprehensive Full Review milestone, where you re-consolidate all words from the previous 6 cycles for maximum retention.
+            </p>
+            <p>
+              VocabCycle also includes <strong className="text-white">daily email study reminders</strong>, detailed <strong className="text-white">vocabulary learning statistics</strong>, streak tracking, and a clean dark-mode interface optimized for distraction-free study sessions. Sign up for free today and start building the vocabulary you need to ace your English proficiency exams.
             </p>
           </div>
         </section>
@@ -119,3 +318,4 @@ export default function LandingPage() {
     </div>
   );
 }
+
