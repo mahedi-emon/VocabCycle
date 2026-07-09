@@ -19,6 +19,7 @@ class SendRemindersView(APIView):
     """
 
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # GitHub Actions sends no JWT — bypass auth
 
     def post(self, request):
         # Validate the secret token

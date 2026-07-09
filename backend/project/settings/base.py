@@ -160,6 +160,17 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
 
 # ──────────────────────────────────────────────
+# Email Backend (Resend via django-anymail)
+# ──────────────────────────────────────────────
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+
+ANYMAIL = {
+    "RESEND_API_KEY": os.getenv("RESEND_API_KEY", ""),
+}
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@vocabcycle.rawsyst.com")
+
+# ──────────────────────────────────────────────
 # Frontend URL (for email templates)
 # ──────────────────────────────────────────────
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
@@ -178,4 +189,3 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
-
