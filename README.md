@@ -142,10 +142,24 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🧑‍💻 Author
+## 🧑‍💻 Author & Developer
 
-**Mahedi Hasan Emon**
-*   Portfolio: [mahedihasanemon.site](https://www.mahedihasanemon.site/)
-*   LinkedIn: [@mahediemon](https://www.linkedin.com/in/mahediemon/)
-*   GitHub: [@mahedi-emon](https://github.com/mahedi-emon)
-*   Company: [RawSyst IT](https://www.rawsyst.com/)
+**Mahedi Hasan Emon**  
+*Full-Stack Engineer & UI/UX Designer*
+
+*   🌐 **Portfolio Website**: [mahedihasanemon.site](https://www.mahedihasanemon.site/)
+*   💼 **LinkedIn**: [linkedin.com/in/mahediemon](https://www.linkedin.com/in/mahediemon/)
+*   🐙 **GitHub**: [github.com/mahedi-emon](https://github.com/mahedi-emon)
+*   📧 **Personal Email**: [mahedi.emon62@gmail.com](mailto:mahedi.emon62@gmail.com)
+
+---
+
+## 🏢 Company Profile
+
+**RawSyst IT**  
+*Custom Software Development, Web Applications, and IT Solutions Provider.*
+
+*   🌐 **Official Website**: [rawsyst.com](https://www.rawsyst.com/)
+*   📧 **Business Email**: [rawsystit@gmail.com](mailto:rawsystit@gmail.com)
+*   🎯 **Core Focus**: Enterprise web applications, responsive cross-platform software engineering, custom database integrations, and cloud infrastructure management.
+
