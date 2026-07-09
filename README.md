@@ -1,6 +1,7 @@
 # 📚 VocabCycle – Enterprise Spaced-Repetition Vocabulary Engine
 
 [![Vercel Deployment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel&logoColor=white&style=flat-square)](https://vocabcycle.rawsyst.com)
+[![Backend Deployment](https://img.shields.io/badge/Backend-Northflank-FF4F8B?logo=northflank&logoColor=white&style=flat-square)](https://vocabcycle.rawsyst.com)
 [![Neon DB](https://img.shields.io/badge/Database-Neon--Postgres-00E599?logo=postgresql&logoColor=white&style=flat-square)](https://neon.tech)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs&logoColor=white&style=flat-square)](https://nextjs.org)
 [![Django DRF](https://img.shields.io/badge/Django-5.0_/_DRF-092E20?logo=django&logoColor=white&style=flat-square)](https://www.django-rest-framework.org)
