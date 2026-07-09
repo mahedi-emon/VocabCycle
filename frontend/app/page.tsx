@@ -293,23 +293,93 @@ export default function LandingPage() {
         </section>
 
         {/* SEO Content Section */}
-        <section className="mt-24 w-full max-w-4xl text-left" aria-label="About VocabCycle">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6">
-            The Best Free Vocabulary Builder for IELTS, GRE & SAT
-          </h2>
-          <div className="space-y-4 text-gray-400 text-base leading-relaxed">
-            <p>
-              <strong className="text-white">VocabCycle</strong> is a powerful, free online vocabulary builder designed specifically for students preparing for <strong className="text-white">IELTS</strong>, <strong className="text-white">GRE</strong>, <strong className="text-white">SAT</strong>, <strong className="text-white">TOEFL</strong>, and <strong className="text-white">PTE</strong> exams. Whether you need to build academic English vocabulary for IELTS band 7, 8, or 9, master GRE high-frequency words, or prepare SAT vocabulary flashcards — VocabCycle provides a structured, science-backed approach to vocabulary acquisition.
-            </p>
-            <p>
-              Unlike traditional vocabulary apps that rely on random flashcards, VocabCycle uses a unique <strong className="text-white">sequence-based learning cycle system</strong> combined with <strong className="text-white">spaced repetition</strong>. You learn exactly 20 new English words daily — complete with meanings, synonyms, and antonyms — and then systematically review them over multiple days until each word is locked into your long-term memory.
-            </p>
-            <p>
-              Our completion-based approach means <strong className="text-white">missed days never break your progress</strong>. Whether you study every day or take breaks, VocabCycle remembers exactly where you left off. Every 7th cycle triggers a comprehensive Full Review milestone, where you re-consolidate all words from the previous 6 cycles for maximum retention.
-            </p>
-            <p>
-              VocabCycle also includes <strong className="text-white">daily email study reminders</strong>, detailed <strong className="text-white">vocabulary learning statistics</strong>, streak tracking, and a clean dark-mode interface optimized for distraction-free study sessions. Sign up for free today and start building the vocabulary you need to ace your English proficiency exams.
-            </p>
+        <section className="mt-24 w-full max-w-5xl" aria-label="About VocabCycle">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs font-semibold uppercase tracking-wide mb-4">
+              <Globe className="h-3 w-3" />
+              Why VocabCycle?
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
+              The Best Free Vocabulary Builder for{' '}
+              <span className="bg-gradient-to-r from-emerald-400 via-primary to-indigo-400 bg-clip-text text-transparent">
+                IELTS, GRE &amp; SAT
+              </span>
+            </h2>
+          </div>
+
+          {/* Feature Highlights Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div className="relative group rounded-2xl border border-border bg-[#111827]/60 p-6 hover:border-primary/40 transition-all duration-300">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <ShieldCheck className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Built for Exam Success</h3>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  <strong className="text-gray-300">VocabCycle</strong> is a powerful, free online vocabulary builder designed for students preparing for <strong className="text-gray-300">IELTS, GRE, SAT, TOEFL,</strong> and <strong className="text-gray-300">PTE</strong> exams. Build academic vocabulary for IELTS band 7, 8, or 9, master GRE high-frequency words, or prepare SAT flashcards — all with a structured, science-backed approach.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl border border-border bg-[#111827]/60 p-6 hover:border-primary/40 transition-all duration-300">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400">
+                    <RefreshCw className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Smart Learning Cycles</h3>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  Unlike apps that rely on random flashcards, VocabCycle uses a unique <strong className="text-gray-300">sequence-based learning cycle system</strong> with <strong className="text-gray-300">spaced repetition</strong>. Learn exactly 20 new words daily — complete with meanings, synonyms, and antonyms — then systematically review them until each word is locked into long-term memory.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl border border-border bg-[#111827]/60 p-6 hover:border-primary/40 transition-all duration-300">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <Calendar className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Never Lose Progress</h3>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  Our completion-based approach means <strong className="text-gray-300">missed days never break your progress</strong>. VocabCycle remembers exactly where you left off. Every 7th cycle triggers a comprehensive Full Review milestone, re-consolidating all words from the previous 6 cycles for maximum retention.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl border border-border bg-[#111827]/60 p-6 hover:border-primary/40 transition-all duration-300">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Stay Consistent</h3>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  VocabCycle includes <strong className="text-gray-300">daily email study reminders</strong>, detailed <strong className="text-gray-300">vocabulary learning statistics</strong>, streak tracking, and a clean dark-mode interface optimized for distraction-free study sessions. Sign up free and start building vocabulary for your English proficiency exams.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center">
+            <Link
+              href={user ? "/dashboard" : "/signup"}
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-500 px-8 py-4 text-base font-semibold text-white hover:from-accent hover:to-indigo-400 transition-all shadow-lg shadow-primary/20"
+            >
+              Start Your Vocabulary Journey — It&apos;s Free
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </div>
         </section>
       </main>
@@ -318,4 +388,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
