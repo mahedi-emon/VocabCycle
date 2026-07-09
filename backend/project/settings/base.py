@@ -168,3 +168,14 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 # Reminder endpoint protection
 # ──────────────────────────────────────────────
 REMINDER_SECRET_TOKEN = os.getenv("REMINDER_SECRET_TOKEN", "")
+
+# ──────────────────────────────────────────────
+# Password Hashers (Optimized for low-CPU containers)
+# ──────────────────────────────────────────────
+PASSWORD_HASHERS = [
+    "accounts.hashers.LightPBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
+
