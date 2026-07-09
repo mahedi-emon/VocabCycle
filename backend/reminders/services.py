@@ -5,6 +5,7 @@ Sends reminder emails to users who haven't completed today's vocabulary
 practice and have reminders enabled.
 """
 
+import zoneinfo
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
@@ -22,15 +23,19 @@ class ReminderService:
     def get_users_needing_reminder():
         """
         Find users who:
-        1. Have reminder_on = True
+        1. Have reminder_on = True and reminder_hour = current_hour
         2. Have not completed a cycle today (no completed_at with today's date)
         3. Have at least one cycle (i.e., they've used the app before)
         """
-        today = timezone.now().date()
+        dhaka_tz = zoneinfo.ZoneInfo("Asia/Dhaka")
+        now_dhaka = timezone.now().astimezone(dhaka_tz)
+        today = now_dhaka.date()
+        current_hour = now_dhaka.hour
 
-        # Users with reminders enabled
+        # Users with reminders enabled for the current hour
         active_users = User.objects.filter(
             reminder_on=True,
+            reminder_hour=current_hour,
             is_active=True,
         )
 

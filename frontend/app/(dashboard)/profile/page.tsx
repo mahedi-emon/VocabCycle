@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { api } from '@/lib/api';
-import { User as UserIcon, Mail, ShieldCheck, CheckCircle } from 'lucide-react';
+import { User as UserIcon, Mail, ShieldCheck, CheckCircle, Bell, Clock } from 'lucide-react';
 
 export default function ProfilePage() {
   const { user, updateUser } = useAuth();
   const [name, setName] = useState(user?.name || '');
+  const [reminderOn, setReminderOn] = useState(user?.reminder_on ?? true);
+  const [reminderHour, setReminderHour] = useState(user?.reminder_hour ?? 11);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,11 @@ export default function ProfilePage() {
     setLoading(true);
 
     try {
-      const res = await api.updateProfile({ name });
+      const res = await api.updateProfile({ 
+        name,
+        reminder_on: reminderOn,
+        reminder_hour: Number(reminderHour)
+      });
       const data = await res.json();
 
       if (res.ok) {
@@ -37,6 +43,16 @@ export default function ProfilePage() {
   };
 
   if (!user) return null;
+
+  // Generate 24 hours options list
+  const hourOptions = Array.from({ length: 24 }, (_, i) => {
+    const suffix = i >= 12 ? 'PM' : 'AM';
+    const displayHour = i % 12 === 0 ? 12 : i % 12;
+    return {
+      value: i,
+      label: `${displayHour}:00 ${suffix}`,
+    };
+  });
 
   return (
     <div className="space-y-8">
@@ -96,6 +112,50 @@ export default function ProfilePage() {
                   placeholder="e.g. John Doe"
                 />
               </div>
+            </div>
+
+            {/* Notification settings */}
+            <div className="border-t border-border pt-5 space-y-4">
+              <h3 className="text-sm font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+                <Bell className="h-4.5 w-4.5 text-primary" />
+                Study Reminders
+              </h3>
+              
+              <div className="flex items-center justify-between rounded-xl bg-secondary/40 p-4 border border-border">
+                <div className="space-y-0.5">
+                  <label className="text-sm font-medium text-white cursor-pointer" htmlFor="reminder-toggle">
+                    Daily Email Reminder
+                  </label>
+                  <p className="text-xs text-gray-400">Receive an email if you haven't reviewed today.</p>
+                </div>
+                <input
+                  id="reminder-toggle"
+                  type="checkbox"
+                  checked={reminderOn}
+                  onChange={(e) => setReminderOn(e.target.checked)}
+                  className="h-5 w-5 rounded border-border text-primary focus:ring-primary bg-secondary cursor-pointer"
+                />
+              </div>
+
+              {reminderOn && (
+                <div className="space-y-1.5 animate-fadeIn">
+                  <label className="text-sm font-medium text-gray-300 flex items-center gap-1.5">
+                    <Clock className="h-4 w-4 text-gray-400" />
+                    Preferred Time
+                  </label>
+                  <select
+                    value={reminderHour}
+                    onChange={(e) => setReminderHour(Number(e.target.value))}
+                    className="block w-full rounded-xl border border-border bg-secondary px-3 py-3 text-white focus:border-primary focus:outline-none sm:text-sm cursor-pointer"
+                  >
+                    {hourOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label} (Bangladesh Time)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
 
             <button

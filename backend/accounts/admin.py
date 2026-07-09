@@ -16,6 +16,7 @@ class UserAdmin(BaseUserAdmin):
         "name",
         "email_verified",
         "reminder_on",
+        "reminder_hour",
         "is_active",
         "created_at",
     ]
@@ -32,7 +33,18 @@ class UserAdmin(BaseUserAdmin):
                     "profile_pic",
                     "email_verified",
                     "reminder_on",
+                    "reminder_hour",
                 ),
             },
         ),
     )
+
+
+from .models import PasswordResetCode
+
+@admin.register(PasswordResetCode)
+class PasswordResetCodeAdmin(admin.ModelAdmin):
+    list_display = ["email", "code", "created_at"]
+    search_fields = ["email", "code"]
+    ordering = ["-created_at"]
+

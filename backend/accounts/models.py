@@ -19,6 +19,7 @@ class User(AbstractUser):
     profile_pic = models.URLField(max_length=500, blank=True, default="")
     email_verified = models.BooleanField(default=False)
     reminder_on = models.BooleanField(default=True)
+    reminder_hour = models.IntegerField(default=11)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

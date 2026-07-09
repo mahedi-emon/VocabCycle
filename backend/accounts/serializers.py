@@ -73,6 +73,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "profile_pic",
             "email_verified",
             "reminder_on",
+            "reminder_hour",
             "created_at",
         ]
         read_only_fields = ["id", "email", "email_verified", "created_at"]
@@ -83,7 +84,7 @@ class UserSettingsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["reminder_on"]
+        fields = ["reminder_on", "reminder_hour"]
 
 
 class ChangePasswordSerializer(serializers.Serializer):

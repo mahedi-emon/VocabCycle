@@ -2,8 +2,8 @@ name: DailyReminder
 
 on:
   schedule:
-    # Run at 11:00 PM Dhaka time (UTC+06:00) = 17:00 UTC
-    - cron: '0 17 * * *'
+    # Run hourly at the start of every hour (checks matching user reminder hours)
+    - cron: '0 * * * *'
   workflow_dispatch: # Allow manual trigger for testing
 
 jobs:
