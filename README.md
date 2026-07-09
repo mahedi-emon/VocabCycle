@@ -5,7 +5,10 @@
 [![Neon DB](https://img.shields.io/badge/Database-Neon--Postgres-00E599?logo=postgresql&logoColor=white&style=flat-square)](https://neon.tech)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs&logoColor=white&style=flat-square)](https://nextjs.org)
 [![Django DRF](https://img.shields.io/badge/Django-5.0_/_DRF-092E20?logo=django&logoColor=white&style=flat-square)](https://www.django-rest-framework.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white&style=flat-square)](https://www.docker.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+
 
 VocabCycle is a production-ready, SaaS-style vocabulary acquisition and retention platform specifically optimized for **IELTS, GRE, and SAT preparation**. Leveraging a structured **sequence-based learning cycle engine** and **completion-based spaced repetition**, VocabCycle makes vocabulary acquisition effortless and highly retention-efficient.
 
@@ -126,10 +129,45 @@ graph TD
 
 ---
 
+## 🔌 API Reference (REST Endpoints)
+
+All endpoints accept and return JSON payloads. Secure routes require a `Bearer <JWT_ACCESS_TOKEN>` authorization header.
+
+### Authentication Endpoints (Public)
+*   `POST /api/v1/auth/register/` - Create a new user account.
+*   `POST /api/v1/auth/login/` - Authenticate using email and password. Returns JWT tokens.
+*   `POST /api/v1/auth/google/` - Exchange a Google OAuth credential token for JWT credentials.
+*   `POST /api/v1/auth/password-reset/request/` - Request a 6-digit password reset code sent to email.
+*   `POST /api/v1/auth/password-reset/confirm/` - Reset password using the 6-digit validation code.
+
+### User Profile & Settings (Protected)
+*   `GET /api/v1/user/` - Retrieve details of the authenticated user profile.
+*   `PUT /api/v1/user/` - Update profile settings (name, reminder hour preference).
+*   `PUT /api/v1/user/settings/` - Quick toggle daily study reminders on/off.
+*   `POST /api/v1/user/change-password/` - Update password.
+
+### Vocabulary & Study Cycles (Protected)
+*   `GET /api/v1/vocab/` - Retrieve user's vocabularies list.
+*   `POST /api/v1/vocab/` - Add a list of new vocabulary words (up to 20 per request).
+*   `GET /api/v1/vocab/export/` - Export all vocabularies in CSV/JSON format.
+*   `GET /api/v1/cycles/` - Get all past learning cycles.
+*   `GET /api/v1/cycles/current/` - Retrieve statistics/details of the currently active cycle.
+*   `POST /api/v1/cycles/start/` - Start a new study cycle.
+*   `POST /api/v1/cycles/complete/` - Close/complete the active study cycle.
+*   `GET /api/v1/cycles/<id>/` - Retrieve details of a specific cycle by ID.
+*   `GET /api/v1/cycles/<id>/words/` - Get the 20 words belonging to a specific cycle.
+
+### Performance Stats & Reviews (Protected)
+*   `POST /api/v1/reviews/` - Record a completed review pass for spaced repetition count tracking.
+*   `GET /api/v1/stats/` - Retrieve statistics (total words learned, streaks, daily goals progress).
+*   `GET /api/v1/search/?word=<query>` - Search the personal database for matching vocabulary words.
+
+---
+
 ## ⚙ Production Settings & Performance Hardening
 
 VocabCycle is optimized for constrained hosting environments (e.g. 0.1 vCPU Sandbox containers) using:
-*   **LightPBKDF2PasswordHasher**: Overridden Django password hashers to use 30,000 iterations instead of the default 260,000. This increases validation speed by **12x** on limited CPU cores without exhausting Gunicorn workers.
+*   **LightPBKDF2PasswordHasher**: Overridden Django password hashers to use 12,000 iterations instead of the default 260,000. This increases validation speed by **20x** on limited CPU cores without exhausting Gunicorn workers.
 *   **Static Worker Threading**: Configured `gunicorn.conf.py` to launch exactly 2 workers to run comfortably within 256MB RAM boundaries.
 *   **Client Caching**: SWR-inspired cache-first UI loading pattern that prevents layout shifts and rendering lag during Neon database cold starts.
 
