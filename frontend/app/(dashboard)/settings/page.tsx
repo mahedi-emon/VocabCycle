@@ -3,16 +3,29 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { api } from '@/lib/api';
-import { Settings, Bell, Lock, ShieldCheck } from 'lucide-react';
+import { Settings, Bell, Lock, Clock } from 'lucide-react';
 
 export default function SettingsPage() {
   const { user, updateUser } = useAuth();
   const [reminderOn, setReminderOn] = useState(user?.reminder_on ?? true);
+  const [reminderHour, setReminderHour] = useState(user?.reminder_hour ?? 11);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Format hour as readable string (e.g. "11:00 PM")
+  const formatHour = (h: number) => {
+    const suffix = h >= 12 ? 'PM' : 'AM';
+    const displayHour = h % 12 === 0 ? 12 : h % 12;
+    return `${displayHour}:00 ${suffix}`;
+  };
+
+  const hourOptions = Array.from({ length: 24 }, (_, i) => ({
+    value: i,
+    label: `${formatHour(i)} (Bangladesh Time)`,
+  }));
 
   const handleToggleReminder = async (checked: boolean) => {
     try {
@@ -22,6 +35,23 @@ export default function SettingsPage() {
         if (user) {
           updateUser({ ...user, reminder_on: checked });
         }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleReminderHourChange = async (hour: number) => {
+    setReminderHour(hour);
+    try {
+      const res = await api.updateProfile({
+        name: user?.name || '',
+        reminder_on: reminderOn,
+        reminder_hour: hour,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        updateUser(data);
       }
     } catch (err) {
       console.error(err);
@@ -80,7 +110,11 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h4 className="text-sm font-semibold text-white">Daily Reminder Emails</h4>
-              <p className="text-xs text-gray-400 mt-1">Get an email reminder at 11:00 PM Dhaka time if your daily cycle is incomplete.</p>
+              <p className="text-xs text-gray-400 mt-1">
+                {reminderOn
+                  ? `You'll receive a reminder at ${formatHour(reminderHour)} (Bangladesh Time) if your daily cycle is incomplete.`
+                  : 'Email reminders are currently disabled.'}
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -92,6 +126,26 @@ export default function SettingsPage() {
               <div className="w-11 h-6 bg-secondary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
           </div>
+
+          {reminderOn && (
+            <div className="space-y-1.5 animate-fadeIn">
+              <label className="text-sm font-medium text-gray-300 flex items-center gap-1.5">
+                <Clock className="h-4 w-4 text-gray-400" />
+                Preferred Reminder Time
+              </label>
+              <select
+                value={reminderHour}
+                onChange={(e) => handleReminderHourChange(Number(e.target.value))}
+                className="block w-full rounded-xl border border-border bg-secondary px-3 py-3 text-white focus:border-primary focus:outline-none sm:text-sm cursor-pointer"
+              >
+                {hourOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         {/* Change Password Card */}

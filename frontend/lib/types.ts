@@ -5,6 +5,7 @@ export interface User {
   profile_pic: string;
   email_verified: boolean;
   reminder_on: boolean;
+  reminder_hour: number;
   created_at: string;
 }
 
