@@ -20,16 +20,21 @@ export default function LoginPage() {
 
     try {
       const res = await api.login({ email, password });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
       
       if (res.ok) {
         login(data.tokens, data.user);
       } else {
-        setError(data.error || 'Invalid credentials');
+        setError(data.error || 'Invalid email or password.');
       }
     } catch (err) {
-      console.error(err);
-      setError('Something went wrong. Please check your network connection.');
+      console.error('Login error:', err);
+      setError('Could not connect to the server. Please try again in a moment.');
     } finally {
       setLoading(false);
     }
@@ -41,16 +46,21 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const res = await api.googleAuth(response.credential);
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
       
       if (res.ok) {
         login(data.tokens, data.user);
       } else {
-        setError(data.error || 'Google authentication failed.');
+        setError(data.error || 'Google authentication failed. Please try again.');
       }
     } catch (err) {
-      console.error(err);
-      setError('Something went wrong. Please check your network connection.');
+      console.error('Google auth error:', err);
+      setError('Could not connect to the server. Please try again in a moment.');
     } finally {
       setLoading(false);
     }

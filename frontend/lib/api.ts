@@ -1,12 +1,29 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+// Endpoints that should NEVER send an Authorization header
+const PUBLIC_ENDPOINTS = [
+  '/api/v1/auth/login/',
+  '/api/v1/auth/register/',
+  '/api/v1/auth/google/',
+  '/api/v1/auth/password-reset/request/',
+  '/api/v1/auth/password-reset/confirm/',
+];
+
+function isPublicEndpoint(endpoint: string): boolean {
+  return PUBLIC_ENDPOINTS.some((pub) => endpoint.startsWith(pub));
+}
+
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
-  
   const headers = new Headers(options.headers);
-  if (token && !headers.has('Authorization')) {
-    headers.set('Authorization', `Bearer ${token}`);
+  
+  // Only attach auth token for protected endpoints
+  if (!isPublicEndpoint(endpoint)) {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+    if (token && !headers.has('Authorization')) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
   }
+  
   if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
     headers.set('Content-Type', 'application/json');
   }
@@ -16,8 +33,8 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     headers,
   });
 
-  if (response.status === 401 && typeof window !== 'undefined') {
-    // Attempt token refresh or redirect to login
+  // Only handle 401 token refresh for protected endpoints
+  if (response.status === 401 && !isPublicEndpoint(endpoint) && typeof window !== 'undefined') {
     const refreshToken = localStorage.getItem('refresh_token');
     if (refreshToken && !endpoint.includes('/auth/token/refresh/')) {
       try {
@@ -44,6 +61,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     // Logout user
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
     if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/signup')) {
       window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
     }

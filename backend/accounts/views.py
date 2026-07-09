@@ -42,6 +42,7 @@ class RegisterView(generics.CreateAPIView):
 
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # Bypass JWT verification
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -62,6 +63,7 @@ class LoginView(APIView):
     """POST /api/v1/auth/login/ – Login with email/password, returns JWT."""
 
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # Bypass JWT verification
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -97,6 +99,7 @@ class GoogleAuthView(APIView):
     """
 
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # Skip JWT auth – this is a public endpoint
 
     def post(self, request):
         serializer = GoogleAuthSerializer(data=request.data)
@@ -113,7 +116,10 @@ class GoogleAuthView(APIView):
                 google_requests.Request(),
                 settings.GOOGLE_CLIENT_ID,
             )
-        except Exception:
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Google token verification failed: {e}")
             return Response(
                 {"error": "Invalid Google token."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -210,6 +216,7 @@ class PasswordResetRequestView(APIView):
     """
 
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # Bypass JWT verification
 
     def post(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
@@ -253,6 +260,7 @@ class PasswordResetConfirmView(APIView):
     """
 
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []  # Bypass JWT verification
 
     def post(self, request):
         serializer = PasswordResetConfirmSerializer(data=request.data)

@@ -33,7 +33,12 @@ export default function SignupPage() {
         password,
         password_confirm: passwordConfirm,
       });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
 
       if (res.ok) {
         login(data.tokens, data.user);
@@ -50,8 +55,8 @@ export default function SignupPage() {
         }
       }
     } catch (err) {
-      console.error(err);
-      setError('Something went wrong. Please check your network connection.');
+      console.error('Registration error:', err);
+      setError('Could not connect to the server. Please try again in a moment.');
     } finally {
       setLoading(false);
     }
@@ -63,16 +68,21 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const res = await api.googleAuth(response.credential);
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
       
       if (res.ok) {
         login(data.tokens, data.user);
       } else {
-        setError(data.error || 'Google authentication failed.');
+        setError(data.error || 'Google authentication failed. Please try again.');
       }
     } catch (err) {
-      console.error(err);
-      setError('Something went wrong. Please check your network connection.');
+      console.error('Google auth error:', err);
+      setError('Could not connect to the server. Please try again in a moment.');
     } finally {
       setLoading(false);
     }
