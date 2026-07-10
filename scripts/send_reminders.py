@@ -35,6 +35,7 @@ def main():
     print(f"{'='*60}")
     print(f"VocabCycle Reminder – {now_dhaka.strftime('%Y-%m-%d %I:%M %p')} (Dhaka)")
     print(f"Checking for users with reminder_hour = {current_hour}")
+    print(f"Today's date (Dhaka): {today}")
     print(f"{'='*60}")
 
     # ── Connect to database ──
@@ -52,56 +53,41 @@ def main():
         print(f"ERROR: Database connection failed: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # ── DIAGNOSTIC: Show all users with reminders enabled ──
+    # ── DIAGNOSTIC: Show ALL users with reminders enabled + their cycle info ──
     try:
         cursor.execute("""
-            SELECT id, email, name, reminder_on, reminder_hour, is_active
-            FROM users
-            WHERE reminder_on = true AND is_active = true
-            ORDER BY reminder_hour;
-        """)
-        all_reminder_users = cursor.fetchall()
-        print(f"\n📋 Users with reminders ON: {len(all_reminder_users)}")
-        for uid, email, name, r_on, r_hour, active in all_reminder_users:
-            match_tag = " ◀ MATCH" if r_hour == current_hour else ""
-            print(f"   • {email} | hour={r_hour} | active={active}{match_tag}")
-    except Exception as e:
-        print(f"WARNING: Diagnostic query failed: {e}")
-
-    # ── DIAGNOSTIC: Check cycles for matching users ──
-    try:
-        cursor.execute("""
-            SELECT u.email, u.reminder_hour,
-                   (SELECT COUNT(*) FROM cycles c WHERE c.user_id = u.id) as total_cycles,
-                   (SELECT COUNT(*) FROM cycles c WHERE c.user_id = u.id AND c.completed_at IS NOT NULL) as completed_cycles,
-                   (SELECT MAX(c.completed_at) FROM cycles c WHERE c.user_id = u.id) as last_completed
+            SELECT 
+                u.id, u.email, u.name, u.reminder_hour, u.is_active,
+                (SELECT COUNT(*) FROM cycles c WHERE c.user_id = u.id) as total_cycles,
+                (SELECT COUNT(*) FROM cycles c WHERE c.user_id = u.id AND c.completed_at IS NOT NULL) as completed_cycles,
+                (SELECT COUNT(*) FROM cycles c WHERE c.user_id = u.id 
+                    AND (c.completed_at AT TIME ZONE 'Asia/Dhaka')::date = %s) as completed_today,
+                (SELECT MAX(c.completed_at) FROM cycles c WHERE c.user_id = u.id) as last_completed
             FROM users u
-            WHERE u.reminder_on = true
-              AND u.reminder_hour = %s
-              AND u.is_active = true;
-        """, (current_hour,))
-        matching_users = cursor.fetchall()
-        print(f"\n🔍 Users matching hour {current_hour}: {len(matching_users)}")
-        for email, r_hour, total_c, completed_c, last_completed in matching_users:
-            print(f"   • {email}")
-            print(f"     total_cycles={total_c}, completed_cycles={completed_c}")
-            print(f"     last_completed_at={last_completed}")
-            if total_c == 0:
-                print(f"     ⚠️  SKIPPED: No cycles found (user hasn't started learning)")
-            elif last_completed:
-                # Check if completed today in Dhaka timezone
-                cursor.execute("""
-                    SELECT EXISTS(
-                        SELECT 1 FROM cycles
-                        WHERE user_id = (SELECT id FROM users WHERE email = %s)
-                          AND (completed_at AT TIME ZONE 'Asia/Dhaka')::date = %s
-                    );
-                """, (email, today))
-                completed_today = cursor.fetchone()[0]
-                if completed_today:
-                    print(f"     ⚠️  SKIPPED: Already completed a cycle today ({today})")
-                else:
-                    print(f"     ✅ ELIGIBLE: Has cycles but hasn't completed one today")
+            WHERE u.reminder_on = true AND u.is_active = true
+            ORDER BY u.reminder_hour;
+        """, (today,))
+        all_users = cursor.fetchall()
+
+        print(f"\n📋 Users with reminders ON: {len(all_users)}")
+        print(f"{'-'*60}")
+        for uid, email, name, r_hour, active, total_c, completed_c, completed_today_count, last_completed in all_users:
+            hour_match = "✅ HOUR MATCH" if r_hour == current_hour else f"⏰ hour={r_hour} (waiting)"
+            print(f"\n   👤 {email} ({name or 'No name'})")
+            print(f"      reminder_hour = {r_hour} | {hour_match}")
+            print(f"      total_cycles = {total_c} | completed_cycles = {completed_c}")
+            print(f"      completed_today = {completed_today_count} | last_completed = {last_completed}")
+
+            # Determine eligibility
+            if r_hour != current_hour:
+                print(f"      → SKIP: Hour doesn't match (need {r_hour}, got {current_hour})")
+            elif total_c == 0:
+                print(f"      → ⚠️ SKIP: User has NO cycles (hasn't started learning yet)")
+            elif completed_today_count > 0:
+                print(f"      → ⚠️ SKIP: Already completed a cycle today")
+            else:
+                print(f"      → ✅ ELIGIBLE: Will receive reminder email!")
+
     except Exception as e:
         print(f"WARNING: Diagnostic query failed: {e}")
 
@@ -126,6 +112,8 @@ def main():
         users = cursor.fetchall()
         print(f"\n{'='*60}")
         print(f"📨 Final eligible users to email: {len(users)}")
+        for uid, email, name in users:
+            print(f"   → {email}")
         print(f"{'='*60}")
     except Exception as e:
         print(f"ERROR: Main query failed: {e}", file=sys.stderr)
