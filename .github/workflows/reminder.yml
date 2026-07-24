@@ -2,13 +2,25 @@ name: HourlyReminder
 
 on:
   schedule:
-    # Run hourly at the start of every hour (checks matching user reminder hours)
-    - cron: '0 * * * *'
+    # Run hourly at minute 5 (avoids the :00 congestion when most cron jobs fire)
+    - cron: '5 * * * *'
   workflow_dispatch: # Allow manual trigger for testing
+
+# Cancel any in-progress runs of this workflow to avoid duplicates
+concurrency:
+  group: hourly-reminder
+  cancel-in-progress: true
 
 jobs:
   send-reminders:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    # Retry up to 3 times if GitHub runner has infrastructure issues
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -16,7 +28,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
