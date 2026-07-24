@@ -60,13 +60,7 @@ export default function LandingPage() {
           name: 'RawSyst IT',
           url: 'https://www.rawsyst.com/',
         },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.8',
-          ratingCount: '50',
-          bestRating: '5',
-          worstRating: '1',
-        },
+
       },
       {
         '@type': 'Organization',
@@ -88,11 +82,6 @@ export default function LandingPage() {
         '@type': 'WebSite',
         name: 'VocabCycle',
         url: 'https://vocabcycle.rawsyst.com',
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: 'https://vocabcycle.rawsyst.com/?q={search_term_string}',
-          'query-input': 'required name=search_term_string',
-        },
       },
       {
         '@type': 'FAQPage',
